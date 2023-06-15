@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_demo/wishlist/wishlist.dart';
+import 'package:riverpod_demo/wishlist/view/wishlist/wishlist.dart';
 
 /* Commented code is for state Notifier Provider
 //https://riverpod.dev/docs/providers/state_notifier_provider
@@ -12,7 +11,6 @@ final wishlistStateProvider =
 @immutable
 class WishlistState {
   final List<BoardGame> games;
-
   final Set<String> wishlist;
 
   const WishlistState(

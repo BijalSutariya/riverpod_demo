@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_demo/wishlist/view/wishlist_app.dart';
+import 'package:riverpod_demo/wishlist/view/wishlist/wishlist_app.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

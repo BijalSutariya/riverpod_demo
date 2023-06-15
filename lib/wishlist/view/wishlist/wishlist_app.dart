@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_demo/wishlist/providers/async_notifier.dart';
-import 'package:riverpod_demo/wishlist/view/wishlisted_view.dart';
+import 'package:riverpod_demo/wishlist/view/wishlist/wishlisted_view.dart';
 
 class WishlistApp extends ConsumerStatefulWidget {
   const WishlistApp({super.key});
@@ -10,17 +10,30 @@ class WishlistApp extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _WishlistAppState();
 }
 
+
+
 class _WishlistAppState extends ConsumerState<WishlistApp> {
+
   @override
   Widget build(BuildContext context) {
     //watch the provider and rebuild when the value changes
-    final state = ref.watch(wishlistAsyncNotifierProvider);
 
+    ref.listen<AsyncValue<void>>(
+      wishlistAsyncNotifierProvider,
+          (_, state) => state.whenOrNull(
+        error: (error, _) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(error.toString())),
+          );
+        },
+      ),
+    );
+    final wishlistState = ref.watch(wishlistAsyncNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wishlist App'),
       ),
-      body: state.when(
+      body: wishlistState.when(
         data: (data) => GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2),
@@ -109,7 +122,7 @@ class _WishlistAppState extends ConsumerState<WishlistApp> {
           child: CircularProgressIndicator(),
         ),
       ),
-      floatingActionButton: state.value == null
+      floatingActionButton: wishlistState.value == null
           ? null
           : Stack(
               clipBehavior: Clip.none,
@@ -123,14 +136,14 @@ class _WishlistAppState extends ConsumerState<WishlistApp> {
                     child: const Icon(Icons.auto_fix_high_outlined),
                   ),
                 ),
-                if (state.value!.wishlist.isNotEmpty)
+                if (wishlistState.value!.wishlist.isNotEmpty)
                   Positioned(
                       right: -4,
                       bottom: 40,
                       child: CircleAvatar(
                         backgroundColor: Colors.tealAccent,
                         radius: 12,
-                        child: Text(state.value!.wishlist.length.toString()),
+                        child: Text(wishlistState.value!.wishlist.length.toString()),
                       ))
               ],
             ),

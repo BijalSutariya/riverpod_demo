@@ -1,6 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_demo/wishlist/providers/wishlist_state.dart';
-import 'package:riverpod_demo/wishlist/wishlist.dart';
+import 'package:riverpod_demo/wishlist/view/wishlist/wishlist.dart';
+
+import '../repositories/wishlist_repository.dart';
 
 part 'async_notifier.g.dart';
 
